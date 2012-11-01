@@ -1,4 +1,4 @@
-package com.mpower;
+package com.mpowerpayments.mpower;
 import org.json.simple.*;
 
 public class CheckoutStore {
@@ -87,7 +87,7 @@ public class CheckoutStore {
 	public String getReturnUrl(){
 		return this.returnUrl;
 	}
-
+	
 	public JSONObject getSettings() {
 		JSONObject settings = new JSONObject();
 		settings.put("name",getName());

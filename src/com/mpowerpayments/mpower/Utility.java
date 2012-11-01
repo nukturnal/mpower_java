@@ -1,4 +1,4 @@
-package com.mpower;
+package com.mpowerpayments.mpower;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.mpower;
+package com.mpowerpayments.mpower;
 
 public class Checkout {
 	public String responseText;

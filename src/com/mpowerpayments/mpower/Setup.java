@@ -1,4 +1,4 @@
-package com.mpower;
+package com.mpowerpayments.mpower;
 
 public class Setup {
 	private String privateKey;

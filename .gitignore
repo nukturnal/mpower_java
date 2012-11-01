@@ -1,4 +1,6 @@
 *.class
 *Test*
 *.DS_Store
-local_src
+org
+.classpath
+.project

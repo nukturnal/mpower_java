@@ -1,9 +1,10 @@
-package com.mpower;
+package com.mpowerpayments.mpower;
+
 import org.json.simple.*;
 
 public class CheckoutInvoice extends Checkout {
 
-	private JSONObject items = new JSONObject();
+  private JSONObject items = new JSONObject();
   private double totalAmount = 0.0;
   private JSONObject taxes = new JSONObject();
   private int itemsCount = 0;
