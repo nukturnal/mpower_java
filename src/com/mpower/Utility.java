@@ -4,11 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-import org.apache.http.*;
-import org.apache.http.client.methods.*;
-import org.apache.http.entity.*;
-import org.apache.http.impl.client.*;
+import java.util.*;
+
+import org.json.simple.*;
+import org.json.simple.parser.*;
 
 public class Utility {
 	Setup setup;
@@ -17,38 +20,139 @@ public class Utility {
 		this.setup = setup;
 	}
 
-	public String postJson(String url,String payload) {
-		String output = null;
-		try	{
-			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpPost request = new HttpPost(url);
-			request.setHeader("User-Agent", "MPower Checkout API Java client v1 aka Don Nigalon");
-			request.setHeader("mp-master-key", setup.getMasterKey());
-			request.setHeader("mp-private-key", setup.getPrivateKey());
-			request.setHeader("mp-public-key", setup.getPublicKey());
-			request.setHeader("mp-token", setup.getToken());
-			request.setHeader("mp-mode", setup.getMode());
+	public JSONObject jsonRequest(String url,String payload) {
+		String output = "";
+		String temp_output;
+		try {
 
-			StringEntity input = new StringEntity(payload);
-			input.setContentType("application/json");
-			request.setEntity(input);
+	    URL parseUrl = new URL(url);
+	    HttpURLConnection conn = (HttpURLConnection) parseUrl.openConnection();
+	    conn.setDoOutput(true);
+	    conn.setRequestMethod("POST");
+	    conn.setRequestProperty("Content-Type", "application/json");
+     	conn.setRequestProperty("Content-Length", Integer.toString(payload.length()));
+	    conn.setRequestProperty("User-Agent", "MPower Checkout API Java client v1 aka Don Nigalon");
+			conn.setRequestProperty("mp-master-key", setup.getMasterKey());
+			conn.setRequestProperty("mp-private-key", setup.getPrivateKey());
+			conn.setRequestProperty("mp-public-key", setup.getPublicKey());
+			conn.setRequestProperty("mp-token", setup.getToken());
+			conn.setRequestProperty("mp-mode", setup.getMode());
+ 
+	    OutputStream os = conn.getOutputStream();
+	    os.write(payload.getBytes("UTF-8"));
+	    os.flush();
 
-			HttpResponse response = httpClient.execute(request);
-			
+ 			int status = conn.getResponseCode();
+
+    if (status != HttpURLConnection.HTTP_CREATED || status != HttpURLConnection.HTTP_OK) {
+      throw new RuntimeException("Failed : HTTP error code : "
+        + conn.getResponseCode());
+    }
+ 
+    BufferedReader br = new BufferedReader(new InputStreamReader(
+      (conn.getInputStream())));
+ 
+		while ((temp_output = br.readLine()) != null) { output += temp_output; }
+    conn.disconnect();
+    } catch (MalformedURLException e) {
+ 
+    e.printStackTrace();
+ 
+    } catch (IOException e) {
+ 
+    e.printStackTrace();
+ 
+   }
+
+		return this.jsonParse(output);
+	}
+
+	public JSONObject getRequest(String url) {
+		String output = "";
+		String temp_output;
+		try {
+ 
+			URL parseUrl = new URL(url);
+			HttpURLConnection conn = (HttpURLConnection) parseUrl.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Content-Type", "application/json");
+	    conn.setRequestProperty("User-Agent", "MPower Checkout API Java client v1 aka Don Nigalon");
+			conn.setRequestProperty("mp-master-key", setup.getMasterKey());
+			conn.setRequestProperty("mp-private-key", setup.getPrivateKey());
+			conn.setRequestProperty("mp-public-key", setup.getPublicKey());
+			conn.setRequestProperty("mp-token", setup.getToken());
+			conn.setRequestProperty("mp-mode", setup.getMode());
+	 
+			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+				throw new RuntimeException("Failed : HTTP error code : "
+						+ conn.getResponseCode());
+			}
+	 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					(response.getEntity().getContent())));
-
-			
-			String temp_output = null;
+				(conn.getInputStream())));
+	 
 			while ((temp_output = br.readLine()) != null) { output += temp_output; }
-
-			httpClient.getConnectionManager().shutdown();
-		} catch (MalformedURLException e) {
+	 
+			conn.disconnect();
+ 
+	  } catch (MalformedURLException e) { 
 			e.printStackTrace();
-		} catch (IOException e) {
+	  } catch (IOException e) {
+			e.printStackTrace();
+	  }
+	  return jsonParse(output);
+	}
+
+	static public JSONObject jsonParse(String s) {
+		Object value = null;
+		try{
+			JSONParser parser = new JSONParser();
+			value = parser.parse(s);
+		} catch(ParseException e) {
 			e.printStackTrace();
 		}
+		return (JSONObject)value;
+	}
 
-		return output;
+	public JSONObject pushJSON(String jsonText) {
+		return pushJSONObject(jsonText);
+	}
+
+	public JSONObject pushJSON(Object jsonText) {
+		String str;
+		try{
+			str = jsonText.toString();
+		}catch(NullPointerException exp) {
+			str = "";
+		} 
+		return pushJSONObject(str);
+	}
+
+	public JSONObject pushJSONObject(String jsonText) {
+		JSONObject data = new JSONObject();
+		JSONParser parser = new JSONParser();
+  	ContainerFactory containerFactory = new ContainerFactory(){
+
+	    public List creatArrayContainer() {
+	      return new LinkedList();
+	    }
+
+	    public Map createObjectContainer() {
+	      return new LinkedHashMap();
+	    }                    
+  };
+      
+  try{
+    Map json = (Map)parser.parse(jsonText, containerFactory);
+    Iterator iter = json.entrySet().iterator();
+
+    while(iter.hasNext()){
+      Map.Entry entry = (Map.Entry)iter.next();
+      data.put(entry.getKey(),entry.getValue());
+    }
+  }
+  catch(ParseException e) {}
+  catch(NullPointerException exp) {}
+  return data;
 	}
 }

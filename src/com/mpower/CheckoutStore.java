@@ -1,5 +1,5 @@
 package com.mpower;
-import org.json.*;
+import org.json.simple.*;
 
 public class CheckoutStore {
   private String name = "Untitled Store";
@@ -88,7 +88,7 @@ public class CheckoutStore {
 		return this.returnUrl;
 	}
 
-	public JSONObject getSettings() throws JSONException {
+	public JSONObject getSettings() {
 		JSONObject settings = new JSONObject();
 		settings.put("name",getName());
 		settings.put("tagline",getTagline());

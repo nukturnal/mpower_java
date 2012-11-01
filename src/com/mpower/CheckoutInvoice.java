@@ -1,5 +1,5 @@
 package com.mpower;
-import org.json.*;
+import org.json.simple.*;
 
 public class CheckoutInvoice extends Checkout {
 
@@ -76,19 +76,19 @@ public class CheckoutInvoice extends Checkout {
 		return this.description;
 	}
 
-	public String getItems() throws JSONException {
-		return this.items.toString(2);
+	public String getItems() {
+		return this.items.toString();
 	}
 
-	public String getTaxes() throws JSONException {
-		return this.taxes.toString(2);
+	public String getTaxes() {
+		return this.taxes.toString();
 	}
 
-	public Object getCustomData(String key) throws JSONException {
+	public Object getCustomData(String key) {
 		return this.customData.get(key);
 	}
 
-	public void addItem(String name, int quantity, double unitPrice, double totalPrice) throws JSONException {
+	public void addItem(String name, int quantity, double unitPrice, double totalPrice) {
 		JSONObject item = new JSONObject();
 		item.put("name",name);
 		item.put("quantity",quantity);
@@ -98,7 +98,7 @@ public class CheckoutInvoice extends Checkout {
 		this.itemsCount += 1;
 	}
 
-	public void addItem(String name, int quantity, double unitPrice, double totalPrice, String description) throws JSONException {
+	public void addItem(String name, int quantity, double unitPrice, double totalPrice, String description) {
 		JSONObject item = new JSONObject();
 		item.put("name",name);
 		item.put("quantity",quantity);
@@ -109,7 +109,7 @@ public class CheckoutInvoice extends Checkout {
 		this.itemsCount += 1;
 	}
 
-	public void addTax(String name, double amount) throws JSONException {
+	public void addTax(String name, double amount) {
 		JSONObject tax = new JSONObject();
 		tax.put("name",name);
 		tax.put("quantity",amount);
@@ -117,11 +117,11 @@ public class CheckoutInvoice extends Checkout {
 		this.taxesCount += 1;
 	}
 
-	public void addCustomData(String key, Object info) throws JSONException {
+	public void addCustomData(String key, Object info) {
 		this.customData.put(key,info);
 	}
 
-	public String create() throws JSONException {
+	public boolean create() {
 		JSONObject payload = new JSONObject();
 		JSONObject invoice = new JSONObject();
 		JSONObject actions = new JSONObject();
@@ -136,6 +136,58 @@ public class CheckoutInvoice extends Checkout {
 		actions.put("return_url", getReturnUrl());
 		payload.put("actions",actions);
 
-		return this.utility.postJson(setup.getCheckoutInvoiceUrl(),payload.toString());
+		JSONObject result = utility.jsonRequest(setup.getCheckoutInvoiceUrl()
+			,payload.toString());
+
+		if (result.size() > 0) {
+			this.responseText = result.get("response_text").toString();
+			this.responseCode = result.get("response_code").toString();
+			this.status = this.SUCCESS;
+			return true;
+		}else{
+			this.responseText = result.get("response_text").toString();
+			this.responseCode = result.get("response_code").toString();
+			this.status = this.FAIL;
+			return false;
+		}
+	}
+
+	public Boolean confirm(String token) {
+		JSONObject jsonData = utility.getRequest(setup.getCheckoutConfirmUrl()+token);
+		JSONObject invoice;
+		Boolean result;
+		if (jsonData.size() > 0) {
+			if (jsonData.get("status").toString() == Checkout.COMPLETED) {
+				invoice = (JSONObject)jsonData.get("invoice");
+				this.status = jsonData.get("status").toString();
+				this.setReceiptUrl(jsonData.get("receipt_url").toString());
+				this.customData = utility.pushJSON(jsonData.get("custom_data"));
+				this.customer = utility.pushJSON(jsonData.get("customer"));
+				this.taxes = utility.pushJSON(invoice.get("taxes"));
+				this.items = utility.pushJSON(invoice.get("items"));
+				this.setTotalAmount((Double)invoice.get("total_amount"));
+				this.responseText = "Checkout Invoice has been paid";
+				this.responseCode = "00";
+				result = true;
+			}else{
+				invoice = (JSONObject)jsonData.get("invoice");
+				this.status = jsonData.get("status").toString();
+				this.setReceiptUrl(jsonData.get("receipt_url").toString());
+				this.customData = utility.pushJSON(jsonData.get("custom_data"));
+				this.customer = utility.pushJSON(jsonData.get("customer"));
+				this.taxes = utility.pushJSON(invoice.get("taxes"));
+				this.items = utility.pushJSON(invoice.get("items"));
+				this.setTotalAmount((Double)invoice.get("total_amount"));
+				this.responseText = "Checkout Invoice has not been paid";
+				this.responseCode = "1003";
+				result = false;
+			}
+		}else{
+			this.responseText = "Invoice Not Found";
+			this.responseCode = "1002";
+			this.status = this.FAIL;
+			result = false;
+		}
+		return result;
 	}
 }
