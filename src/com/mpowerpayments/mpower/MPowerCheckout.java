@@ -1,6 +1,6 @@
 package com.mpowerpayments.mpower;
 
-public class Checkout {
+public class MPowerCheckout {
 	public String responseText;
 	public String responseCode;
 	public String status;

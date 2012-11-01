@@ -2,7 +2,7 @@ package com.mpowerpayments.mpower;
 
 import org.json.simple.*;
 
-public class CheckoutInvoice extends Checkout {
+public class MPowerCheckoutInvoice extends MPowerCheckout {
 
   private JSONObject items = new JSONObject();
   private double totalAmount = 0.0;
@@ -17,14 +17,14 @@ public class CheckoutInvoice extends Checkout {
   private JSONObject customData = new JSONObject();
   private String receiptUrl = null;
   private JSONObject customer = new JSONObject();
-  private Setup setup;
-  private CheckoutStore store;
-  private Utility utility;
+  private MPowerSetup setup;
+  private MPowerCheckoutStore store;
+  private MPowerUtility utility;
 	
-	public CheckoutInvoice(Setup setup, CheckoutStore store) {
+	public MPowerCheckoutInvoice(MPowerSetup setup, MPowerCheckoutStore store) {
 		this.setup = setup;
 		this.store = store;
-		this.utility = new Utility(setup);
+		this.utility = new MPowerUtility(setup);
 		this.cancelUrl = store.getCancelUrl();
 		this.returnUrl = store.getReturnUrl();
 	}
@@ -158,7 +158,7 @@ public class CheckoutInvoice extends Checkout {
 		JSONObject invoice;
 		Boolean result;
 		if (jsonData.size() > 0) {
-			if (jsonData.get("status").toString() == Checkout.COMPLETED) {
+			if (jsonData.get("status").toString() == MPowerCheckout.COMPLETED) {
 				invoice = (JSONObject)jsonData.get("invoice");
 				this.status = jsonData.get("status").toString();
 				this.setReceiptUrl(jsonData.get("receipt_url").toString());

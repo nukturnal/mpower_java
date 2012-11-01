@@ -1,6 +1,6 @@
 package com.mpowerpayments.mpower;
 
-public class Setup {
+public class MPowerSetup {
 	private String privateKey;
 	private String publicKey;
 	private String masterKey;
@@ -12,12 +12,36 @@ public class Setup {
   final String LIVE_CHECKOUT_CONFIRM_BASE_URL = "https://app.mpowerpayments.com/api/v1/checkout-invoice/confirm/";
   final String TEST_CHECKOUT_CONFIRM_BASE_URL = "https://app.mpowerpayments.com/sandbox-api/v1/checkout-invoice/confirm/";
 
-	public Setup(String masterKey, String privateKey, String publicKey, String token, String mode) {
+	public MPowerSetup(String masterKey, String privateKey, String publicKey, String token, String mode) {
 		this.masterKey = masterKey;
 		this.privateKey = privateKey;
 		this.publicKey = publicKey;
 		this.token = token;
 		this.mode = mode;
+	}
+
+	public MPowerSetup(){
+
+	}
+
+	public void setMasterKey(String str){
+		this.masterKey = str;
+	}
+
+	public void setPrivateKey(String str){
+		this.privateKey = str;
+	}
+
+	public void setPublicKey(String str){
+		this.publicKey = str;
+	}
+
+	public void setToken(String str){
+		this.token = str;
+	}
+
+	public void setMode(String str){
+		this.mode = str;
 	}
 
 	public String getMasterKey(){

@@ -13,10 +13,10 @@ import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
-public class Utility {
-	Setup setup;
+public class MPowerUtility {
+	MPowerSetup setup;
 
-	public Utility(Setup setup) {
+	public MPowerUtility(MPowerSetup setup) {
 		this.setup = setup;
 	}
 

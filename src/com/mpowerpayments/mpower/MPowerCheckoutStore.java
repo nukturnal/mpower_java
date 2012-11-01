@@ -1,7 +1,7 @@
 package com.mpowerpayments.mpower;
 import org.json.simple.*;
 
-public class CheckoutStore {
+public class MPowerCheckoutStore {
   private String name = "Untitled Store";
   private String tagline;  
   private String postalAddress;  
@@ -11,16 +11,16 @@ public class CheckoutStore {
   private String returnUrl;
   private String cancelUrl;
 
-	public CheckoutStore(String name, String tagline){
+	public MPowerCheckoutStore(String name, String tagline){
 		setName(name);
 		setTagline(tagline);
 	}
 
-	public CheckoutStore(String name) {
+	public MPowerCheckoutStore(String name) {
 		setName(name);
 	}
 
-	public CheckoutStore() {
+	public MPowerCheckoutStore() {
 
 	}
 
