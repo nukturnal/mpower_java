@@ -8,9 +8,9 @@ public class Setup {
 	private String mode;
 
 	final String LIVE_CHECKOUT_INVOICE_BASE_URL = "https://app.mpowerpayments.com/api/v1/checkout-invoice/create";
-  final String TEST_CHECKOUT_INVOICE_BASE_URL = "http://0.0.0.0:3000/sandbox-api/v1/checkout-invoice/create";
+  final String TEST_CHECKOUT_INVOICE_BASE_URL = "https://app.mpowerpayments.com/sandbox-api/v1/checkout-invoice/create";
   final String LIVE_CHECKOUT_CONFIRM_BASE_URL = "https://app.mpowerpayments.com/api/v1/checkout-invoice/confirm/";
-  final String TEST_CHECKOUT_CONFIRM_BASE_URL = "http://0.0.0.0:3000/sandbox-api/v1/checkout-invoice/confirm/";
+  final String TEST_CHECKOUT_CONFIRM_BASE_URL = "https://app.mpowerpayments.com/sandbox-api/v1/checkout-invoice/confirm/";
 
 	public Setup(String masterKey, String privateKey, String publicKey, String token, String mode) {
 		this.masterKey = masterKey;
