@@ -1,5 +1,4 @@
 *.class
-*Test*
 *.DS_Store
 org
 .classpath

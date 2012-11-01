@@ -140,14 +140,15 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 		JSONObject result = utility.jsonRequest(setup.getCheckoutInvoiceUrl()
 			,payload.toString());
 
-		if (result.size() > 0) {
-			this.responseText = result.get("response_text").toString();
-			this.responseCode = result.get("response_code").toString();
+		this.responseText = result.get("response_text").toString();
+		this.responseCode = result.get("response_code").toString();
+		
+		if (this.responseCode.equals("00")) {
+			this.responseText = result.get("description").toString();
+			this.setInvoiceUrl(result.get("response_text").toString());
 			this.status = this.SUCCESS;
 			return true;
 		}else{
-			this.responseText = result.get("response_text").toString();
-			this.responseCode = result.get("response_code").toString();
 			this.status = this.FAIL;
 			return false;
 		}
@@ -158,7 +159,7 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 		JSONObject invoice;
 		Boolean result;
 		if (jsonData.size() > 0) {
-			if (jsonData.get("status").toString() == MPowerCheckout.COMPLETED) {
+			if (jsonData.get("status").equals(MPowerCheckout.COMPLETED)) {
 				invoice = (JSONObject)jsonData.get("invoice");
 				this.status = jsonData.get("status").toString();
 				this.setReceiptUrl(jsonData.get("receipt_url").toString());

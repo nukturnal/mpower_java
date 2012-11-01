@@ -44,9 +44,8 @@ public class MPowerUtility {
 
  			int status = conn.getResponseCode();
 
-    if (status != HttpURLConnection.HTTP_CREATED || status != HttpURLConnection.HTTP_OK) {
-      throw new RuntimeException("Failed : HTTP error code : "
-        + conn.getResponseCode());
+    if (status != HttpURLConnection.HTTP_CREATED && status != HttpURLConnection.HTTP_OK) {
+      throw new RuntimeException("Failed : HTTP error code : " + status);
     }
  
     BufferedReader br = new BufferedReader(new InputStreamReader(
