@@ -4,6 +4,7 @@ public class MPowerCheckout {
 	public String responseText;
 	public String responseCode;
 	public String status;
+  public String token;
 
   public static String SUCCESS = "success";
   public static String FAIL = "fail";

@@ -144,6 +144,7 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 		this.responseCode = result.get("response_code").toString();
 		
 		if (this.responseCode.equals("00")) {
+			this.token = result.get("token").toString();
 			this.responseText = result.get("description").toString();
 			this.setInvoiceUrl(result.get("response_text").toString());
 			this.status = this.SUCCESS;
