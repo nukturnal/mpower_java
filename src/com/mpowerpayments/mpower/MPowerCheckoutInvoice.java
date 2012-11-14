@@ -4,22 +4,24 @@ import org.json.simple.*;
 
 public class MPowerCheckoutInvoice extends MPowerCheckout {
 
-  private JSONObject items = new JSONObject();
-  private double totalAmount = 0.0;
-  private JSONObject taxes = new JSONObject();
-  private int itemsCount = 0;
-  private int taxesCount = 0;
-  private String description = null;
-  private String currency = "ghs";
-  private String cancelUrl = null;
-  private String returnUrl = null;
-  private String invoiceUrl = null;
-  private JSONObject customData = new JSONObject();
-  private String receiptUrl = null;
-  private JSONObject customer = new JSONObject();
-  private MPowerSetup setup;
-  private MPowerCheckoutStore store;
-  private MPowerUtility utility;
+	protected	JSONObject invoice = new JSONObject();
+	protected	JSONObject actions = new JSONObject();
+  protected JSONObject items = new JSONObject();
+  protected double totalAmount = 0.0;
+  protected JSONObject taxes = new JSONObject();
+  protected int itemsCount = 0;
+  protected int taxesCount = 0;
+  protected String description = null;
+  protected String currency = "ghs";
+  protected String cancelUrl = null;
+  protected String returnUrl = null;
+  protected String invoiceUrl = null;
+  protected JSONObject customData = new JSONObject();
+  protected String receiptUrl = null;
+  protected JSONObject customer = new JSONObject();
+  protected MPowerSetup setup;
+  protected MPowerCheckoutStore store;
+  protected MPowerUtility utility;
 	
 	public MPowerCheckoutInvoice(MPowerSetup setup, MPowerCheckoutStore store) {
 		this.setup = setup;
@@ -124,8 +126,6 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 
 	public boolean create() {
 		JSONObject payload = new JSONObject();
-		JSONObject invoice = new JSONObject();
-		JSONObject actions = new JSONObject();
 
 		invoice.put("items", this.items);
 		invoice.put("taxes", this.taxes);
@@ -157,8 +157,7 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 
 	public Boolean confirm(String token) {
 		JSONObject jsonData = utility.getRequest(setup.getCheckoutConfirmUrl()+token);
-		JSONObject invoice;
-		Boolean result;
+		Boolean result = false;
 		if (jsonData.size() > 0) {
 			if (jsonData.get("status").equals(MPowerCheckout.COMPLETED)) {
 				invoice = (JSONObject)jsonData.get("invoice");
@@ -183,13 +182,11 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 				this.setTotalAmount((Double)invoice.get("total_amount"));
 				this.responseText = "Checkout Invoice has not been paid";
 				this.responseCode = "1003";
-				result = false;
 			}
 		}else{
 			this.responseText = "Invoice Not Found";
 			this.responseCode = "1002";
 			this.status = this.FAIL;
-			result = false;
 		}
 		return result;
 	}

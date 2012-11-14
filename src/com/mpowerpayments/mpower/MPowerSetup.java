@@ -7,10 +7,15 @@ public class MPowerSetup {
 	private String token;
 	private String mode;
 
-	final String LIVE_CHECKOUT_INVOICE_BASE_URL = "https://app.mpowerpayments.com/api/v1/checkout-invoice/create";
-  final String TEST_CHECKOUT_INVOICE_BASE_URL = "https://app.mpowerpayments.com/sandbox-api/v1/checkout-invoice/create";
-  final String LIVE_CHECKOUT_CONFIRM_BASE_URL = "https://app.mpowerpayments.com/api/v1/checkout-invoice/confirm/";
-  final String TEST_CHECKOUT_CONFIRM_BASE_URL = "https://app.mpowerpayments.com/sandbox-api/v1/checkout-invoice/confirm/";
+	final String ROOT_URL_BASE = "https://app.mpowerpayments.com";
+	final String LIVE_CHECKOUT_INVOICE_BASE_URL = "/api/v1/checkout-invoice/create";
+  final String TEST_CHECKOUT_INVOICE_BASE_URL = "/sandbox-api/v1/checkout-invoice/create";
+  final String LIVE_CHECKOUT_CONFIRM_BASE_URL = "/api/v1/checkout-invoice/confirm/";
+  final String TEST_CHECKOUT_CONFIRM_BASE_URL = "/sandbox-api/v1/checkout-invoice/confirm/";
+	final String LIVE_OPR_BASE_URL = "/api/v1/opr/create";
+	final String TEST_OPR_BASE_URL = "/sandbox-api/v1/opr/create";
+	final String LIVE_OPR_CHARGE_BASE_URL = "/api/v1/opr/charge";
+	final String TEST_OPR_CHARGE_BASE_URL = "/sandbox-api/v1/opr/charge";
 
 	public MPowerSetup(String masterKey, String privateKey, String publicKey, String token, String mode) {
 		this.masterKey = masterKey;
@@ -66,17 +71,33 @@ public class MPowerSetup {
 
 	public String getCheckoutInvoiceUrl() {
 		if (this.mode == "live") {
-			return this.LIVE_CHECKOUT_INVOICE_BASE_URL;
+			return ROOT_URL_BASE+LIVE_CHECKOUT_INVOICE_BASE_URL;
 		}else{
-			return this.TEST_CHECKOUT_INVOICE_BASE_URL;
+			return ROOT_URL_BASE+TEST_CHECKOUT_INVOICE_BASE_URL;
 		}
 	}
 
 	public String getCheckoutConfirmUrl() {
 		if (this.mode == "live") {
-			return this.LIVE_CHECKOUT_CONFIRM_BASE_URL;
+			return ROOT_URL_BASE+LIVE_CHECKOUT_CONFIRM_BASE_URL;
 		}else{
-			return this.TEST_CHECKOUT_CONFIRM_BASE_URL;
+			return ROOT_URL_BASE+TEST_CHECKOUT_CONFIRM_BASE_URL;
+		}
+	}
+
+	public String getOPRInvoiceUrl() {
+		if (this.mode == "live") {
+			return ROOT_URL_BASE+LIVE_OPR_BASE_URL;
+		}else{
+			return ROOT_URL_BASE+TEST_OPR_BASE_URL;
+		}
+	}
+
+	public String getOPRChargeUrl() {
+		if (this.mode == "live") {
+			return ROOT_URL_BASE+LIVE_OPR_CHARGE_BASE_URL;
+		}else{
+			return ROOT_URL_BASE+TEST_OPR_CHARGE_BASE_URL;
 		}
 	}
 }
