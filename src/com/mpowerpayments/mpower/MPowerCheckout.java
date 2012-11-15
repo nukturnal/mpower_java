@@ -22,4 +22,8 @@ public class MPowerCheckout {
   public String getResponseCode() {
     return responseCode;
   }
+
+  public String getToken() {
+    return this.token;
+  }
 }

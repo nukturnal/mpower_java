@@ -91,6 +91,10 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 		return this.customData.get(key);
 	}
 
+	public Object getCustomerInfo(String key) {
+		return this.customer.get(key);
+	}
+
 	public void addItem(String name, int quantity, double unitPrice, double totalPrice) {
 		JSONObject item = new JSONObject();
 		item.put("name",name);
