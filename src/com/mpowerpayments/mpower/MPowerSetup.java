@@ -7,7 +7,7 @@ public class MPowerSetup {
 	private String token;
 	private String mode;
 
-	final String ROOT_URL_BASE = "https://app.mpowerpayments.com";
+	final String ROOT_URL_BASE = "http://localhost:3000";
 	final String LIVE_CHECKOUT_INVOICE_BASE_URL = "/api/v1/checkout-invoice/create";
   final String TEST_CHECKOUT_INVOICE_BASE_URL = "/sandbox-api/v1/checkout-invoice/create";
   final String LIVE_CHECKOUT_CONFIRM_BASE_URL = "/api/v1/checkout-invoice/confirm/";

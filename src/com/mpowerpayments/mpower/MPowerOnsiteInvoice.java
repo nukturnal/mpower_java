@@ -78,8 +78,8 @@ public class MPowerOnsiteInvoice extends MPowerCheckoutInvoice {
 				this.responseCode = jsonResult.get("response_code").toString();
 			}
 		}else{
-			this.responseText = "Invoice Not Found";
-			this.responseCode = "1002";
+			this.responseText = "An Unknown MPower Server Error Occured.";
+			this.responseCode = "4002";
 			this.status = this.FAIL;
 		}
 		return result;
