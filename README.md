@@ -1,13 +1,15 @@
-mpower-java
-===========
-
+MPower Java API Client
+======================
 MPower Payments Java Client Library
+
+## Offical Documentation
+http://mpowerpayments.com/developers/docs/java.html
 
 ## Installation
 
 Add MPowerPaments jar file to your classpath
 
-    mpowerpayments-version.jar
+    mpower_latest.jar
 
 ## Setup your API Keys
 
@@ -38,9 +40,14 @@ When a returnURL is not set, MPower will redirect the customer to the receipt pa
     storeSetup.setReturnUrl(CHECKOUT_RETURN_URL);
 
 ## Create your Checkout Invoice
-Please note that MPowerCheckoutInvoice Class requires two parameters which should be instances of MPowerSetup & MPowerStore respectively
+Please note that `MPowerCheckoutInvoice` Class requires two parameters which should be instances of MPowerSetup & MPowerStore respectively
 
     MPowerCheckoutInvoice co = new MPowerCheckoutInvoice(apiSetup, storeSetup);
+
+## Create your Onsite Payment Request Invoice
+Please note that `MPowerOnsiteInvoice` Class requires two parameters which should be instances of MPowerSetup & MPowerStore respectively
+
+    MPowerOnsiteInvoice co = new MPowerOnsiteInvoice(apiSetup, storeSetup);
 
 Params for addItem function `addItem(name_of_item,quantity,unit_price,total_price)`
 
@@ -65,11 +72,34 @@ Params for addItem function `addItem(name_of_item,quantity,unit_price,total_pric
 
 ## Pushing invoice to MPower server and getting your URL
 
-    if(co->create()) {
+    if(co.create()) {
        System.out.println("Invoice URL: "+co.getInvoiceUrl());
     }else{
       System.out.println("Error Occured: "+ co.getResponseCode());
     }
+
+## Onsite Payment Request(OPR) Charge
+First step is to take the customers mpower account alias, this could be the phoneno, username or mpower account number.
+pass this as a param for the `create` action of the `MPower::Onsite::Invoice` class instance. MPower will return an OPR TOKEN after the request is successfull. The customer will also receieve a confirmation TOKEN.
+        
+    if(co.create("CUSTOMER_MPOWER_USERNAME_OR_PHONE")) {
+      System.out.println(co.responseText);
+      System.out.println("OPR Token: "+co.token);
+    }else{
+      System.out.println("Error Message: "+co.responseText);
+    }
+
+Second step requires you to accept the confirmation TOKEN from the customer, add your OPR Token and issue the charge. Upon successfull charge you should be able to access the digital receipt URL and other objects outlined in the offical docs.
+
+    if(co.charge("OPR_TOKEN","CUSTOMER_CONFIRM_TOKEN")) {
+      System.out.println(co.responseText);
+      System.out.println("Receipt URL: "+co.getReceiptUrl());
+    }else{
+      System.out.println("Error Message: "+co.responseText);
+    }
+
+## Download MPower Java Demo
+https://github.com/nukturnal/MPower_Java_Example
 
 ## Contributing
 
