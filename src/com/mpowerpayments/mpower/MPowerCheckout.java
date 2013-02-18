@@ -5,6 +5,8 @@ public class MPowerCheckout {
 	public String responseCode;
 	public String status;
   public String token;
+  public String transactionId;
+  public String description;
 
   public static String SUCCESS = "success";
   public static String FAIL = "fail";
@@ -25,5 +27,13 @@ public class MPowerCheckout {
 
   public String getToken() {
     return this.token;
+  }
+
+  public String getTransactionId() {
+    return this.transactionId;
+  }
+
+  public String getDescription() {
+    return this.description;
   }
 }

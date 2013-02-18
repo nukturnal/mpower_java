@@ -8,14 +8,21 @@ public class MPowerSetup {
 	private String mode;
 
 	final String ROOT_URL_BASE = "https://app.mpowerpayments.com";
+
 	final String LIVE_CHECKOUT_INVOICE_BASE_URL = "/api/v1/checkout-invoice/create";
   final String TEST_CHECKOUT_INVOICE_BASE_URL = "/sandbox-api/v1/checkout-invoice/create";
+
   final String LIVE_CHECKOUT_CONFIRM_BASE_URL = "/api/v1/checkout-invoice/confirm/";
   final String TEST_CHECKOUT_CONFIRM_BASE_URL = "/sandbox-api/v1/checkout-invoice/confirm/";
+
 	final String LIVE_OPR_BASE_URL = "/api/v1/opr/create";
 	final String TEST_OPR_BASE_URL = "/sandbox-api/v1/opr/create";
+
 	final String LIVE_OPR_CHARGE_BASE_URL = "/api/v1/opr/charge";
 	final String TEST_OPR_CHARGE_BASE_URL = "/sandbox-api/v1/opr/charge";
+
+	final String LIVE_DIRECT_PAY_CREDIT_URL = "/api/v1/direct-pay/credit-account";
+	final String TEST_DIRECT_PAY_CREDIT_URL = "/sandbox-api/v1/direct-pay/credit-account";
 
 	public MPowerSetup(String masterKey, String privateKey, String publicKey, String token, String mode) {
 		this.masterKey = masterKey;
@@ -98,6 +105,14 @@ public class MPowerSetup {
 			return ROOT_URL_BASE+LIVE_OPR_CHARGE_BASE_URL;
 		}else{
 			return ROOT_URL_BASE+TEST_OPR_CHARGE_BASE_URL;
+		}
+	}
+
+	public String getDirectPayCreditUrl() {
+		if (this.mode == "live") {
+			return ROOT_URL_BASE+LIVE_DIRECT_PAY_CREDIT_URL;
+		}else{
+			return ROOT_URL_BASE+TEST_DIRECT_PAY_CREDIT_URL;
 		}
 	}
 }
