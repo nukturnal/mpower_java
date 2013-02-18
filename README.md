@@ -98,6 +98,19 @@ Second step requires you to accept the confirmation TOKEN from the customer, add
       System.out.println("Error Message: "+co.responseText);
     }
 
+## DirectPay Request
+You can pay any MPower account directly via your third party apps. This is particularly excellent for implementing your own Adaptive payment solutions ontop of MPower. Please note that `MPowerDirectPay` Class expects one parameter which should be an instance of the MPowerSetup Class
+
+    MPowerDirectPay direct_pay = new MPowerDirectPay(apiSetupInstance);
+    if(direct_pay.creditAccount("MPOWER_CUSTOMER_USERNAME_OR_PHONENO",50)){
+        System.out.println("Status: "+direct_pay.getStatus());
+        System.out.println("Descripion: "+direct_pay.getDescription());
+        System.out.println("Transaction ID: "+direct_pay.getTransactionId());
+    }else{
+        System.out.println("Status: "+direct_pay.getStatus());
+        System.out.println("Response Message: "+direct_pay.getResponseText());
+    }
+
 ## Download MPower Java Demo
 https://github.com/nukturnal/MPower_Java_Example
 
