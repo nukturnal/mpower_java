@@ -24,6 +24,9 @@ public class MPowerSetup {
 	final String LIVE_DIRECT_PAY_CREDIT_URL = "/api/v1/direct-pay/credit-account";
 	final String TEST_DIRECT_PAY_CREDIT_URL = "/sandbox-api/v1/direct-pay/credit-account";
 
+	final String LIVE_DIRECT_CREDITCARD_CHARGE_URL = "/api/v1/direct-card/processcard";
+	final String TEST_DIRECT_CREDITCARD_CHARGE_URL = "/sandbox-api/v1/direct-card/processcard";
+
 	public MPowerSetup(String masterKey, String privateKey, String publicKey, String token, String mode) {
 		this.masterKey = masterKey;
 		this.privateKey = privateKey;
@@ -113,6 +116,14 @@ public class MPowerSetup {
 			return ROOT_URL_BASE+LIVE_DIRECT_PAY_CREDIT_URL;
 		}else{
 			return ROOT_URL_BASE+TEST_DIRECT_PAY_CREDIT_URL;
+		}
+	}
+
+	public String getDirectCreditcardChargeUrl() {
+		if (this.mode == "live") {
+			return ROOT_URL_BASE+LIVE_DIRECT_CREDITCARD_CHARGE_URL;
+		}else{
+			return ROOT_URL_BASE+TEST_DIRECT_CREDITCARD_CHARGE_URL;
 		}
 	}
 }
