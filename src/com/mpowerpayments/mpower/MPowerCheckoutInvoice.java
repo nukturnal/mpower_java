@@ -163,7 +163,7 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 		JSONObject jsonData = utility.getRequest(setup.getCheckoutConfirmUrl()+token);
 		Boolean result = false;
 		if (jsonData.size() > 0) {
-			if (jsonData.get("status").equals(MPowerCheckout.COMPLETED)) {
+			if (jsonData.get("status").toString().equals(this.COMPLETED)) {
 				invoice = (JSONObject)jsonData.get("invoice");
 				this.status = jsonData.get("status").toString();
 				this.setReceiptUrl(jsonData.get("receipt_url").toString());
