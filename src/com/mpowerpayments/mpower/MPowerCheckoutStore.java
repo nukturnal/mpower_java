@@ -1,6 +1,7 @@
 package com.mpowerpayments.mpower;
 import org.json.simple.*;
 
+//class for setting up online store information
 public class MPowerCheckoutStore {
   private String name = "Untitled Store";
   private String tagline;  
@@ -8,8 +9,8 @@ public class MPowerCheckoutStore {
   private String phoneNumber;  
   private String logoUrl;
   private String websiteUrl;
-  private String returnUrl;
-  private String cancelUrl;
+  private String returnUrl; //the URL the user will be redirected to when payment is successful
+  private String cancelUrl; //the URL the user will be redicted to when checkout is cancelled
 
 	public MPowerCheckoutStore(String name, String tagline){
 		setName(name);
@@ -88,6 +89,10 @@ public class MPowerCheckoutStore {
 		return this.returnUrl;
 	}
 	
+	/**
+	 * Returns {@link JSONObject } of the settings data.
+	 * @return settings information
+	 */
 	public JSONObject getSettings() {
 		JSONObject settings = new JSONObject();
 		settings.put("name",getName());

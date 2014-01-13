@@ -2,6 +2,7 @@ package com.mpowerpayments.mpower;
 
 import org.json.simple.*;
 
+//class for processing charge on direct card.
 public class MPowerDirectCard extends MPowerCheckout {
 
   protected MPowerSetup setup;
@@ -12,6 +13,17 @@ public class MPowerDirectCard extends MPowerCheckout {
     this.setup = setup;
     this.utility = new MPowerUtility(setup);
   }
+
+  /**
+   * Gets the information about the card and debit <code>amount</code> from the card.
+   * @param  amount     Amount to debit
+   * @param  cardName   The name of the card
+   * @param  cardNumber The number of the card
+   * @param  cardCVC    The Card Verification Code(CVC)
+   * @param  expMonth   The monnth the card will expire
+   * @param  expYear    The year the card will expire
+   * @return            true if operation is successful and false if the operation is not successful
+   */
 
   public boolean charge(double amount, String cardName, String cardNumber, String cardCVC, String expMonth, String expYear) {
     JSONObject payload = new JSONObject();

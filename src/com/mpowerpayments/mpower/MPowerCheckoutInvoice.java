@@ -2,11 +2,12 @@ package com.mpowerpayments.mpower;
 
 import org.json.simple.*;
 
+//class for processing the Checkout Invoice
 public class MPowerCheckoutInvoice extends MPowerCheckout {
 
 	protected	JSONObject invoice = new JSONObject();
 	protected	JSONObject actions = new JSONObject();
-  protected JSONObject items = new JSONObject();
+  protected JSONObject items = new JSONObject(); 
   protected double totalAmount = 0.0;
   protected JSONObject taxes = new JSONObject();
   protected int itemsCount = 0;
@@ -23,6 +24,11 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
   protected MPowerCheckoutStore store;
   protected MPowerUtility utility;
 	
+	/**
+	 * Constructor for creating an instance of the Checkout Invoice with a given <code>MPowerSetup</code> and <code>MPowerCheckoutStore</code>
+	 * @param  setup  An instance of <code>MPowerSetup</code>
+	 * @param  store An instance of <code>MPowerCheckoutStore</code>
+	 */
 	public MPowerCheckoutInvoice(MPowerSetup setup, MPowerCheckoutStore store) {
 		this.setup = setup;
 		this.store = store;
@@ -95,6 +101,15 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 		return this.customer.get(key);
 	}
 
+	/**
+	 * Adds new item 
+	 * <p>
+	 * The method creates an item of type {@link JSONObject} and adds the details to the item.
+	 * @param name       The name of the item
+	 * @param quantity   The quantity of the item
+	 * @param unitPrice  The Unit price of the item
+	 * @param totalPrice The total price of the item
+	 */
 	public void addItem(String name, int quantity, double unitPrice, double totalPrice) {
 		JSONObject item = new JSONObject();
 		item.put("name",name);
@@ -105,6 +120,15 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 		this.itemsCount += 1;
 	}
 
+	/**
+	 * An overloaded <code>addItem</code> method with description added
+	 * @param name        The name of the Item
+	 * @param quantity    The quantity of the item
+	 * @param unitPrice   The Unit Price of the item
+	 * @param totalPrice  The total price of the item
+	 * @param description The description of the item
+	 * @see addItem
+	 */
 	public void addItem(String name, int quantity, double unitPrice, double totalPrice, String description) {
 		JSONObject item = new JSONObject();
 		item.put("name",name);
@@ -116,6 +140,11 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 		this.itemsCount += 1;
 	}
 
+	/**
+	 * Adds tax information to the item
+	 * @param name   The name of the tax
+	 * @param amount The cost of the tax
+	 */
 	public void addTax(String name, double amount) {
 		JSONObject tax = new JSONObject();
 		tax.put("name",name);
@@ -124,9 +153,19 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 		this.taxesCount += 1;
 	}
 
+	/**
+	 * For adding additional information 
+	 * @param key  The key to associate with the data object
+	 * @param info An object of Custom data
+	 */
 	public void addCustomData(String key, Object info) {
 		this.customData.put(key,info);
 	}
+
+	/**
+	 * Creates an invoice, Returns true or false based on whether the invoice was created successfully or not.
+	 * @return true if invoice is created or false if the creation failed
+	 */
 
 	public boolean create() {
 		JSONObject payload = new JSONObject();
@@ -159,6 +198,11 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 		}
 	}
 
+	/**
+	 * Checks whether the invoice is valid using the token received. if the invoice is valid it checks whether it has been paid or not.
+	 * @param  token the token received 
+	 * @return       true if invoice is valid and paid else false
+	 */
 	public Boolean confirm(String token) {
 		JSONObject jsonData = utility.getRequest(setup.getCheckoutConfirmUrl()+token);
 		Boolean result = false;

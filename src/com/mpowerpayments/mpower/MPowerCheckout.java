@@ -1,5 +1,7 @@
 package com.mpowerpayments.mpower;
-
+/**
+ * Class for setting and getting checkout values
+ */
 public class MPowerCheckout {
 	public String responseText;
 	public String responseCode;
