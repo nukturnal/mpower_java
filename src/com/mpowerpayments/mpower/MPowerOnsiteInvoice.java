@@ -2,9 +2,17 @@ package com.mpowerpayments.mpower;
 
 import org.json.simple.*;
 
+//Class for processing Onsite Invoice
 public class MPowerOnsiteInvoice extends MPowerCheckoutInvoice {
 
 	public String invoiceToken;
+
+	/**
+	 * Constructor for creating an instance of the Onsite Checkout Invoice with a given <code>MPowerSetup</code> and <code>MPowerCheckoutStore</code>
+	 * @param  setup  An instance of <code>MPowerSetup</code>
+	 * @param  store An instance of <code>MPowerCheckoutStore</code>
+	 * @see  MPowerCheckoutInvoice
+	 */
 	public MPowerOnsiteInvoice(MPowerSetup setup, MPowerCheckoutStore store) {
 		super(setup, store);
 	}
