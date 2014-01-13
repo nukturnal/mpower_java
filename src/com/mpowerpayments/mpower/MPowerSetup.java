@@ -1,6 +1,6 @@
 package com.mpowerpayments.mpower;
 
-import java.lang.Enum;
+
 
 //Class for setting up Mpower API Keys and getting the various URLS
 public class MPowerSetup {
