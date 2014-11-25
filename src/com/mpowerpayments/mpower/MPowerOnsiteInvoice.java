@@ -30,6 +30,7 @@ public class MPowerOnsiteInvoice extends MPowerCheckoutInvoice {
 
 		payload.put("invoice_data",invoice_data);
 		payload.put("opr_data",opr_data);
+		payload.put("custom_data",this.customData);
 
 		JSONObject result = utility.jsonRequest(setup.getOPRInvoiceUrl()
 			,payload.toString());

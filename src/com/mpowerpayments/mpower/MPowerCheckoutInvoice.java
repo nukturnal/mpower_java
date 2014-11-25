@@ -136,6 +136,7 @@ public class MPowerCheckoutInvoice extends MPowerCheckout {
 		invoice.put("total_amount", getTotalAmount());
 		invoice.put("description", getDescription());
 		payload.put("invoice",invoice);
+		payload.put("custom_data",this.customData);
 		payload.put("store",store.getSettings());
 		actions.put("cancel_url", getCancelUrl());
 		actions.put("return_url", getReturnUrl());
